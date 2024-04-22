@@ -1,0 +1,9 @@
+@KhaiMarket.API_HostAddress = http://localhost:5018
+
+GET http://localhost:5018/weatherforecast/
+Accept: application/json
+
+GET http://localhost:5018/api/products/
+Accept: application/json
+
+###
