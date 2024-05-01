@@ -1,8 +1,11 @@
-using KhaiMarket.API.Extension;
-using KhaiMarket.API.Products.Infrastructure.Data;
-using KhaiMarket.API.Products.Infrastructure.Data.Seed;
+using Asp.Versioning;
+using KhaiMarket.API.Features.Products;
+using KhaiMarket.API.Helpers;
+using KhaiMarket.API.Infrastructure.Data;
+using KhaiMarket.API.Infrastructure.Data.Seed;
 using Microsoft.EntityFrameworkCore;
-using static KhaiMarket.API.Products.GetProducts;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +14,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+builder.Services.AddSwaggerGen(
+    options =>
+    {
+        // add a custom operation filter which sets default values
+        options.OperationFilter<SwaggerDefaultValues>();
+
+        // var fileName = typeof(Program).Assembly.GetName().Name + ".xml";
+        // var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
+
+        // // integrate xml comments
+        // options.IncludeXmlComments(filePath);
+    });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -19,9 +35,23 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"));
 });
 
-builder.Services.AddTransient<GetProductsQuery>();
+builder.Services.AddProductServices();
 
-builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(Program).Assembly));
+// builder.Services.AddMediator();
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+})
+.AddMvc()
+.AddApiExplorer(o =>
+{
+    o.GroupNameFormat = "'v'VVV";
+    o.SubstituteApiVersionInUrl = true;
+});
 
 var app = builder.Build();
 
@@ -29,12 +59,36 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(
+        options =>
+       {
+           var descriptions = app.DescribeApiVersions();
+
+           // build a swagger endpoint for each discovered API version
+           foreach (var description in descriptions)
+           {
+               var url = $"/swagger/{description.GroupName}/swagger.json";
+               var name = description.GroupName.ToUpperInvariant();
+               options.SwaggerEndpoint(url, name);
+           }
+       });
 }
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
+
+// app.UseExceptionHandler("/error");
+
+//ApiVersionSet apiVersionSet = app.NewApiVersionSet()
+//    .HasApiVersion(new ApiVersion(1))
+//    .ReportApiVersions()
+//    .Build();
+
+//RouteGroupBuilder versionedGroup = app
+//    .MapGroup("api/v{apiVersion:apiVersion}")
+//    .WithApiVersionSet(apiVersionSet);
 
 app.UseAuthorization();
+app.UseStaticFiles();
 
 app.MapControllers();
 
