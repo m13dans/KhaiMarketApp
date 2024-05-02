@@ -13,7 +13,7 @@ public class ProductsController : ApiController
     // I Use Method Injection instead of constructor injection
     // for my service so the action only use what service it need
     [HttpGet]
-    public async Task<IResult> Get([FromQuery] ProductParameter paging,
+    public async Task<IResult> Get([FromQuery] SortFilterPageOption paging,
         [FromServices] GetProductWithPagination query)
     {
         var products = await query.GetProductsAsync(paging);

@@ -9,46 +9,26 @@ public class GetProductWithPagination(AppDbContext context)
 {
     private readonly AppDbContext _context = context;
 
-    public async Task<ErrorOr<List<ProductDTO>>> GetProductsAsync(ProductParameter param)
+    public async Task<ErrorOr<List<ProductDTO>>> GetProductsAsync(SortFilterPageOption param)
     {
-        var products = await _context.Products.AsNoTracking()
+        var products = _context.Products.AsNoTracking()
                        .AsSplitQuery()
                        .Include(p => p.Category)
                        .Include(p => p.ProductBrand)
                        .Include(p => p.Reviews)
-                       .OrderBy(p => p.Name)
+                       .MapProductToDto()
+                       .OrderProductBy(param.OrderByOptions)
+                       .FilterProductBy(param.ProductFilterByOptions, param.FilterValue)
+                       .Where(x => x.Price >= param.LowestPrice && x.Price <= param.HigestPrice)
+                       .Where(x => x.TotalStars >= param.Rating)
                        .Skip((param.PageNumber - 1) * param.PageSize)
-                       .Take(param.PageSize)
-                       .ToListAsync();
+                       .Take(param.PageSize);
 
-        if (products.Count is 0)
+        if (products is null)
         {
             return ProductError.NotFound;
         }
 
-        var result = products.Select(p => new ProductDTO
-        {
-            Id = p.Id,
-            Name = p.Name,
-            Description = p.Description,
-            Stock = p.Stock,
-            Material = p.Material,
-            ImageUrl = p.ImageUrl,
-            Price = p.Price,
-            Category = p.Category!.Name,
-            ProductBrand = p.ProductBrand!.Name,
-            ReviewsDTO = p.Reviews.Select(x => new ReviewDTO
-            {
-                VoterName = x.VoterName,
-                Comment = x.Comment,
-                NumStars = x.NumStars,
-            }),
-            TotalStars = p.Reviews.Count != 0
-                ? Math.Round(p.Reviews.Select(x => x.NumStars).Average(), 2)
-                : 0
-
-        });
-        var resultWithFilter = result.Where(x => x.TotalStars >= param.MinRating);
-        return resultWithFilter.ToList();
+        return await products.ToListAsync();
     }
 }

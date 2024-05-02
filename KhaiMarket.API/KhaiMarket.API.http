@@ -12,29 +12,26 @@ POST http://localhost:5018/api/v2/products/
 Content-Type: application/json
 
 {
-  "name": "Lavender Khaela Hijab",
-  "description": "Hijab dengan corak bunga dan perpaduan warna ungu Lavender yang elegan",
+  "name": "Emerald Antique Hijab",
+  "description": "Hijab dengan perpaduan warna yang elegan dan corak bernuansa antik",
   "stock": 1,
   "material": "Sublim",
-  "imageUrl": "http://localhost:5018/images/hijab-code-6.jpg",
-  "price": 38000,
+  "imageUrl": "http://localhost:5018/images/hijab-code-7.jpg",
+  "price": 45000,
   "category": "Hijab Segi Empat",
   "productBrand": "Khaela Hijab",
   "reviewsDTO": [
     {
-      "id": 1,
       "voterName": "Miya",
       "comment": "Sangat Bagus Hijabnya",
-      "numStars": 4
+      "numStars": 5
     },
     {
-      "id": 2,
       "voterName": "Masha",
       "comment": "Bagus sekali Hijabnya",
       "numStars": 5
     },
     {
-      "id": 3,
       "voterName": "Yunyun",
       "comment": "Bagus Hijabnya",
       "numStars": 5
