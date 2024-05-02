@@ -1,9 +1,44 @@
 @KhaiMarket.API_HostAddress = http://localhost:5018
 
-GET http://localhost:5018/weatherforecast/
-Accept: application/json
-
-GET http://localhost:5018/api/products/
+GET http://localhost:5018/api/v2/products/1
 Accept: application/json
 
 ###
+GET http://localhost:5018/api/v2/products?PageNumber=3&PageSize=2
+Accept: application/json
+
+###
+POST http://localhost:5018/api/v2/products/
+Content-Type: application/json
+
+{
+  "name": "Lavender Khaela Hijab",
+  "description": "Hijab dengan corak bunga dan perpaduan warna ungu Lavender yang elegan",
+  "stock": 1,
+  "material": "Sublim",
+  "imageUrl": "http://localhost:5018/images/hijab-code-6.jpg",
+  "price": 38000,
+  "category": "Hijab Segi Empat",
+  "productBrand": "Khaela Hijab",
+  "reviewsDTO": [
+    {
+      "id": 1,
+      "voterName": "Miya",
+      "comment": "Sangat Bagus Hijabnya",
+      "numStars": 4
+    },
+    {
+      "id": 2,
+      "voterName": "Masha",
+      "comment": "Bagus sekali Hijabnya",
+      "numStars": 5
+    },
+    {
+      "id": 3,
+      "voterName": "Yunyun",
+      "comment": "Bagus Hijabnya",
+      "numStars": 5
+    }
+  ],
+  "totalStars": 4.5
+}

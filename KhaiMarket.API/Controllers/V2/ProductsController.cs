@@ -13,9 +13,10 @@ public class ProductsController : ApiController
     // I Use Method Injection instead of constructor injection
     // for my service so the action only use what service it need
     [HttpGet]
-    public async Task<IResult> Get([FromServices] GetProducts query)
+    public async Task<IResult> Get([FromQuery] ProductParameter paging,
+        [FromServices] GetProductWithPagination query)
     {
-        var products = await query.GetProductsAsync();
+        var products = await query.GetProductsAsync(paging);
 
         return products.Match(
             products => Results.Ok(products),
@@ -37,9 +38,10 @@ public class ProductsController : ApiController
     }
 
     [HttpPost]
-    public async Task<IResult> Create(ProductDTO productDTO, [FromServices] CreateProduct command)
+    public async Task<IResult> Create([FromBody] UpsertProductDto upsertProductDto,
+        [FromServices] CreateProduct command)
     {
-        var result = await command.Create(productDTO);
+        var result = await command.Create(upsertProductDto);
         if (result.IsError)
         {
             return Problem(result.Errors);
@@ -48,9 +50,9 @@ public class ProductsController : ApiController
     }
 
     [HttpPut]
-    public async Task<IResult> Update(int id, [FromBody] ProductDTO productDTO, [FromServices] UpdateProduct command)
+    public async Task<IResult> Update(int id, [FromBody] UpsertProductDto upsertProductDto, [FromServices] UpdateProduct command)
     {
-        var result = await command.UpdateProductById(id, productDTO);
+        var result = await command.UpdateProductById(id, upsertProductDto);
         if (result.IsError)
         {
             return Problem(result.Errors);

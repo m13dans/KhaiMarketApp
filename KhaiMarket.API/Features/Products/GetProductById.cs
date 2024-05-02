@@ -28,15 +28,14 @@ public class GetProductById(AppDbContext context)
             ProductBrand = x.ProductBrand!.Name,
             ReviewsDTO = x.Reviews.Select(x => new ReviewDTO
             {
-                Id = x.Id,
                 VoterName = x.VoterName,
                 Comment = x.Comment,
                 NumStars = x.NumStars,
-            }).ToList(),
+            }),
             Material = x.Material,
             Stock = x.Stock,
             TotalStars = x.Reviews.Count != 0
-                ? (float?)x.Reviews.Select(x => x.NumStars).Average()
+                ? x.Reviews.Select(x => x.NumStars).Average()
                 : 0
         }).SingleOrDefaultAsync();
 

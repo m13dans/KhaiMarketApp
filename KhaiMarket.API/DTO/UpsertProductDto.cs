@@ -1,8 +1,7 @@
 namespace KhaiMarket.API.DTO;
 
-public class ProductDTO
+public class UpsertProductDto
 {
-    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int Stock { get; set; }
@@ -11,6 +10,6 @@ public class ProductDTO
     public decimal Price { get; set; }
     public string Category { get; set; } = string.Empty;
     public string ProductBrand { get; set; } = string.Empty;
-    public IEnumerable<ReviewDTO>? ReviewsDTO { get; set; }
+    public ICollection<ReviewDTO> ReviewsDTO { get; set; } = new List<ReviewDTO>();
     public double? TotalStars { get; set; }
 }

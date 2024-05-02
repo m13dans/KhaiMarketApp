@@ -9,6 +9,7 @@ public static class ProductServiceExtension
         services.AddTransient<CreateProduct>();
         services.AddTransient<UpdateProduct>();
         services.AddTransient<DeleteProductById>();
+        services.AddTransient<GetProductWithPagination>();
 
         return services;
     }

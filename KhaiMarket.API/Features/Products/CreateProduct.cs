@@ -15,7 +15,7 @@ public class CreateProduct
         _context = context;
     }
 
-    public async Task<ErrorOr<Created>> Create(ProductDTO request)
+    public async Task<ErrorOr<Created>> Create(UpsertProductDto request)
     {
         var product = MapToProduct(request);
 
@@ -28,11 +28,10 @@ public class CreateProduct
         return Result.Created;
     }
 
-    private static Product MapToProduct(ProductDTO request)
+    private static Product MapToProduct(UpsertProductDto request)
     {
         return new Product
         {
-            Id = request.Id,
             Name = request.Name,
             Description = request.Description,
             Stock = request.Stock,
@@ -41,7 +40,6 @@ public class CreateProduct
             Price = request.Price,
             Reviews = request.ReviewsDTO.Select(x => new Review
             {
-                Id = x.Id,
                 VoterName = x.VoterName,
                 NumStars = x.NumStars,
                 Comment = x.Comment,
@@ -49,7 +47,7 @@ public class CreateProduct
         };
     }
 
-    private async Task<Product> AssignCategory(ProductDTO request, Product product)
+    private async Task<Product> AssignCategory(UpsertProductDto request, Product product)
     {
         if (string.IsNullOrEmpty(request.Category))
         {
@@ -65,7 +63,7 @@ public class CreateProduct
         return product;
     }
 
-    private async Task<Product> AssignBrand(ProductDTO request, Product product)
+    private async Task<Product> AssignBrand(UpsertProductDto request, Product product)
     {
         if (string.IsNullOrEmpty(request.ProductBrand))
         {

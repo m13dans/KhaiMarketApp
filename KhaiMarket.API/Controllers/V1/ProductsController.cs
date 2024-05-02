@@ -39,9 +39,9 @@ public class ProductsController : ApiController
     }
 
     [HttpPost]
-    public async Task<IResult> Create(ProductDTO productDTO, [FromServices] CreateProduct command)
+    public async Task<IResult> Create(UpsertProductDto upsertProductDto, [FromServices] CreateProduct command)
     {
-        var result = await command.Create(productDTO);
+        var result = await command.Create(upsertProductDto);
         if (result.IsError)
         {
             return Problem(result.Errors);
@@ -50,9 +50,9 @@ public class ProductsController : ApiController
     }
 
     [HttpPut]
-    public async Task<IResult> Update(int id, [FromBody] ProductDTO productDTO, [FromServices] UpdateProduct command)
+    public async Task<IResult> Update(int id, [FromBody] UpsertProductDto upsertProductDto, [FromServices] UpdateProduct command)
     {
-        var result = await command.UpdateProductById(id, productDTO);
+        var result = await command.UpdateProductById(id, upsertProductDto);
         if (result.IsError)
         {
             return Problem(result.Errors);

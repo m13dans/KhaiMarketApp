@@ -15,7 +15,7 @@ public class UpdateProduct
         _context = context;
     }
 
-    public async Task<ErrorOr<Updated>> UpdateProductById(int id, ProductDTO request)
+    public async Task<ErrorOr<Updated>> UpdateProductById(int id, UpsertProductDto request)
     {
         var product = await _context.Products
             .Include(x => x.Category)
@@ -38,7 +38,7 @@ public class UpdateProduct
         return Result.Updated;
     }
 
-    private static Product MapToProductUpdate(ProductDTO request, Product product)
+    private static Product MapToProductUpdate(UpsertProductDto request, Product product)
     {
         product.Name = request.Name;
         product.Description = request.Description;
@@ -52,7 +52,7 @@ public class UpdateProduct
         return product;
     }
 
-    private async Task<Product> AssignCategory(ProductDTO request, Product product)
+    private async Task<Product> AssignCategory(UpsertProductDto request, Product product)
     {
         if (string.IsNullOrEmpty(request.Category))
         {
@@ -68,7 +68,7 @@ public class UpdateProduct
         return product;
     }
 
-    private async Task<Product> AssignBrand(ProductDTO request, Product product)
+    private async Task<Product> AssignBrand(UpsertProductDto request, Product product)
     {
         if (string.IsNullOrEmpty(request.ProductBrand))
         {
