@@ -78,8 +78,8 @@ public static class ProductListDtoSort
         {
             OrderByOptions.SimpleOrder => products.OrderByDescending(x => x.Id),
             OrderByOptions.ByRating => products.OrderByDescending(x => x.TotalStars),
-            OrderByOptions.ByPriceLowestFirst => products.OrderBy(x => (double)x.Price),
-            OrderByOptions.ByPriceHigestFirst => products.OrderByDescending(x => (double)x.Price),
+            OrderByOptions.ByPriceLowestFirst => products.OrderBy(x => (double?)x.Price),
+            OrderByOptions.ByPriceHigestFirst => products.OrderByDescending(x => (double?)x.Price),
             _ => products.OrderByDescending(x => x.Name)
         };
 }
