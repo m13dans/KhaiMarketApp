@@ -4,8 +4,11 @@ using KhaiMarket.API.Features.Products;
 using KhaiMarket.API.Helpers;
 using KhaiMarket.API.Infrastructure.Data;
 using KhaiMarket.API.Infrastructure.Data.Seed;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,11 +21,16 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-builder.Services.AddSwaggerGen(
-    options =>
+builder.Services.AddSwaggerGen(options =>
     {
         // add a custom operation filter which sets default values
-        options.OperationFilter<SwaggerDefaultValues>();
+        options.OperationFilter<SecurityRequirementsOperationFilter>();
+        options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey
+        });
 
         // var fileName = typeof(Program).Assembly.GetName().Name + ".xml";
         // var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
@@ -36,6 +44,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     // options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDbConnection"));
     options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"));
 });
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddProductServices();
 
@@ -76,18 +87,16 @@ if (app.Environment.IsDevelopment())
        });
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 // app.UseExceptionHandler("/error");
 
-//ApiVersionSet apiVersionSet = app.NewApiVersionSet()
-//    .HasApiVersion(new ApiVersion(1))
-//    .ReportApiVersions()
-//    .Build();
+app.MapIdentityApi<IdentityUser>();
 
-//RouteGroupBuilder versionedGroup = app
-//    .MapGroup("api/v{apiVersion:apiVersion}")
-//    .WithApiVersionSet(apiVersionSet);
+app.UseCors(o =>
+{
+    o.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+});
 
 app.UseAuthorization();
 app.UseStaticFiles();

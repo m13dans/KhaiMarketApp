@@ -1,4 +1,5 @@
 ﻿using KhaiMarket.API.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -41,3 +42,11 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
         builder.Property(p => p.Comment).HasMaxLength(300);
     }
 }
+
+// public class IdentityConfiguration : IEntityTypeConfiguration<IdentityUser>
+// {
+//     public void Configure(EntityTypeBuilder<IdentityUser> builder)
+//     {
+//         builder.Property(x => x.Id).hasp
+//     }
+// }

@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using KhaiMarket.API.DTO;
 using KhaiMarket.API.Features.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KhaiMarket.API.Controllers.V2;
@@ -13,6 +14,7 @@ public class ProductsController : ApiController
     // I Use Method Injection instead of constructor injection
     // for my service so the action only use what service it need
     [HttpGet]
+    [Authorize]
     public async Task<IResult> Get([FromQuery] SortFilterPageOption paging,
         [FromServices] GetProductWithPagination query)
     {
