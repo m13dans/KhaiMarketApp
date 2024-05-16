@@ -3,12 +3,52 @@
 <div class="container mt-5">
   <h1>Welcome to {{ title }}</h1>
 </div>
-<ul class="list-group">
+
+<div class="py-5 bg-body-tertiary">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      @for (product of products; track product.id) {
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="card-img-top" height="225" src="{{ product.imageUrl }}" />
+          <div class="card-body">
+            <div class="card-header py-sm-0 mb-2">
+              <h5 class="card-text">
+                {{ product.name }}
+              </h5>
+              <p>Rp. {{ product.price }}</p>
+            </div>
+            <p class="card-text">
+              {{ product.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- <div class="row container-fluid justify-content-between">
   @for (product of products; track product.id) {
-  <li class="list-group-item">{{ product.name }}</li>
-  <li class="list-group-item">{{ product.description }}</li>
-  <li class="list-group-item">{{ product.stock }}</li>
-  <li class="list-group-item">{{ product.material }}</li>
-  <li class="list-group-item">{{ product.price }}</li>
+
+  <div class="col-xl-3 col-lg-4 col-md-4 col-12">
+    <div class="align-content-center">
+      <div class="">
+        <img
+          class="default-image"
+          src="{{ product.imageUrl }}"
+          alt="{{ product.imageUrl }}"
+          height="200px"
+        />
+      </div>
+      <div class="product-content">
+        <h3 class="h3">{{ product.name }}</h3>
+        <div class="product-price">
+          <span>Rp. {{ product.price }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
   }
-</ul>
+</div> -->
