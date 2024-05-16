@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ProductDto } from '../../Models/ProductDto';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,6 @@ export class ShopService {
   constructor(private http: HttpClient) {}
 
   getProducts() {
-    return this.http.get(this.baseUrl + 'products');
+    return this.http.get<ProductDto[]>(this.baseUrl + 'products');
   }
 }

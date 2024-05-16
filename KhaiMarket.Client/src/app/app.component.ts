@@ -1,33 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { HttpClient } from '@angular/common/http';
-import { ProductDto } from './Models/ProductDto';
+import { ShopComponent } from './components/shop/shop.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavBarComponent],
+  imports: [RouterOutlet, NavBarComponent, ShopComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss', './components/shop/shop.component.scss'],
 })
 export class AppComponent implements OnInit {
   title = 'KhaiMarket';
-  products: ProductDto[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.http
-      .get<ProductDto[]>('http://localhost:5018/api/v2/products')
-      .subscribe(
-        (response: ProductDto[]) => {
-          this.products = response;
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
+  ngOnInit(): void {}
 }
