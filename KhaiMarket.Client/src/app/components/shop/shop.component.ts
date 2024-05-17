@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductDto } from '../../Models/ProductDto';
 import { ShopService } from './shop.service';
+import { ProductItemComponent } from '../product-item/product-item.component';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [],
+  imports: [ProductItemComponent],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss',
 })
