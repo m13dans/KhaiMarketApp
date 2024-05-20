@@ -51,6 +51,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
 
 builder.Services.AddProductServices();
 builder.Services.AddCategoryServices();
+builder.Services.AddProductBrandServices();
 
 // builder.Services.AddMediator();
 
