@@ -2,7 +2,7 @@ An E-Commerce Application built with C# and ASP.NET Core 8 for the backend and A
 
 With some basic feature like Sorting, Filtering and Searching
 
-Cookie and Token Authentication Authorization \n \n
+Cookie and Token Authentication Authorization\\
 Technology used
 
 Backend : 
