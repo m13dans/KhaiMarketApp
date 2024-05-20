@@ -13,6 +13,7 @@ namespace KhaiMarket.API.Controllers.V2
     [Route("api/v{Version:ApiVersion}/[controller]")]
     public class CategoryController : ApiController
     {
+        [HttpGet]
         public async Task<IResult> GetCategories([FromServices] GetCategories getCategories)
         {
             var categories = await getCategories.GetAsync();
@@ -20,7 +21,7 @@ namespace KhaiMarket.API.Controllers.V2
             {
                 return Results.NotFound();
             }
-            return Results.Ok();
+            return Results.Ok(categories.Value);
         }
 
     }

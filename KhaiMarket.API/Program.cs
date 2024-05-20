@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Asp.Versioning;
+using KhaiMarket.API.Features.Categories;
 using KhaiMarket.API.Features.Products;
 using KhaiMarket.API.Helpers;
 using KhaiMarket.API.Infrastructure.Data;
@@ -49,6 +50,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddProductServices();
+builder.Services.AddCategoryServices();
 
 // builder.Services.AddMediator();
 
