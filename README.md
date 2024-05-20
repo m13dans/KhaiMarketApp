@@ -11,6 +11,7 @@ Backend :
 - Entity Framework Core
 - AutoMapper
 - Mediatr
+- Asp.Net Core Identity (authentication & authorization)
 
 Frontend :
 - Angular
