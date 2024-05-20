@@ -1,3 +1,13 @@
-A Simple E-Commerce Project With paging sorting filtering capabality in WebApi
+An E-Commerce Application built with C# and ASP.NET Core 8 for the backend and Angular for the Frontend
 
-Currently only WebApi but planing to add View Using Angular
+Technology used
+Backend : 
+ASP.NET Core
+Entity Framework Core
+AutoMapper
+Mediatr
+
+Frontend :
+Angular
+Bootstrap
+Font Awesome
