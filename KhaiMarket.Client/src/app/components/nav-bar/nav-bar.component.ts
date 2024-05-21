@@ -11,4 +11,5 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 })
 export class NavBarComponent {
   faShoppingCart = faShoppingCart;
+  cartQuantity: number = 0;
 }

@@ -12,6 +12,9 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './product-item.component.scss',
 })
 export class ProductItemComponent {
+  incrementCart() {
+    cartQuantity++;
+  }
   faShoppingCart = faShoppingCart;
   @Input() product!: ProductDto;
 }
