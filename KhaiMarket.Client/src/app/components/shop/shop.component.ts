@@ -14,9 +14,9 @@ import { ProductFilterByOptions } from '../../Models/ProductFilterByOptions';
   styleUrl: './shop.component.scss',
 })
 export class ShopComponent implements OnInit {
-  products: ProductDto[] | null = [];
-  categories: Category[] = [];
-  productBrands: ProductBrand[] = [];
+  products?: ProductDto[] | null;
+  categories?: Category[];
+  productBrands?: ProductBrand[];
 
   filterByOptions?: string;
   filterValue?: string;

@@ -14,5 +14,5 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 export class ProductItemComponent {
   incrementCart() {}
   faShoppingCart = faShoppingCart;
-  @Input() product!: ProductDto;
+  @Input() product?: ProductDto;
 }
