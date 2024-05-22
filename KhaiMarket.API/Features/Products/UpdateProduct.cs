@@ -24,7 +24,7 @@ public class UpdateProduct
 
         if (product is null)
         {
-            return Result.Updated;
+            return Error.NotFound();
         }
 
         var updatedProduct = MapToProductUpdate(request, product);

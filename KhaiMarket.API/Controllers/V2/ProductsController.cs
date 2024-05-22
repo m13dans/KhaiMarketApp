@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using KhaiMarket.API.Core.Entities;
 using KhaiMarket.API.DTO;
 using KhaiMarket.API.Features.Products;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,7 @@ public class ProductsController : ApiController
     }
 
     [HttpGet("{id:int}")]
+    [Authorize]
     public async Task<IResult> GetById(int id, [FromServices] GetProductById query)
     {
         var product = await query.GetProductByIdAsync(id);
@@ -40,6 +42,7 @@ public class ProductsController : ApiController
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin, Manager")]
     public async Task<IResult> Create([FromBody] UpsertProductDto upsertProductDto,
         [FromServices] CreateProduct command)
     {
@@ -52,6 +55,7 @@ public class ProductsController : ApiController
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin, Manager")]
     public async Task<IResult> Update(int id, [FromBody] UpsertProductDto upsertProductDto, [FromServices] UpdateProduct command)
     {
         var result = await command.UpdateProductById(id, upsertProductDto);
@@ -64,6 +68,7 @@ public class ProductsController : ApiController
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Admin, Manager")]
     public async Task<IResult> DeleteById(int id, [FromServices] DeleteProductById query)
     {
         var result = await query.DeleteProduct(id);

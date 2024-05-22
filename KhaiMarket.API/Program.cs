@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Asp.Versioning;
+using KhaiMarket.API.Features.Account;
 using KhaiMarket.API.Features.Categories;
 using KhaiMarket.API.Features.Products;
 using KhaiMarket.API.Helpers;
@@ -20,6 +21,12 @@ builder.Services.AddControllers()
     .AddJsonOptions(option => option.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddAntiforgery();
 
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen(options =>
@@ -45,10 +52,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     // options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDbConnection"));
     options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"));
 });
-builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddEntityFrameworkStores<AppDbContext>();
 
+// Feature Service for CRUD functionality
 builder.Services.AddProductServices();
 builder.Services.AddCategoryServices();
 builder.Services.AddProductBrandServices();
@@ -94,18 +99,20 @@ if (app.Environment.IsDevelopment())
 
 // app.UseExceptionHandler("/error");
 
-app.MapIdentityApi<IdentityUser>();
 
 app.UseCors(o =>
 {
     o.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 });
-
 app.UseAuthorization();
+app.MapGroup("/account").MapIdentityApi<IdentityUser>();
+
 app.UseStaticFiles();
 
 app.MapControllers();
 
 app.ApplyMigrations();
+
+await app.CreateRoles();
 
 app.Run();
