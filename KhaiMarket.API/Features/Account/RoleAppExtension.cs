@@ -10,8 +10,10 @@ namespace KhaiMarket.API.Features.Account
     {
         public static async Task CreateRoles(this WebApplication app)
         {
-            var roleManager = app.Services.GetRequiredService<RoleManager<IdentityRole<int>>>();
-            var userManager = app.Services.GetRequiredService<UserManager<IdentityUser>>();
+            using var scope = app.Services.CreateScope();
+
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
             string[] roleNames = ["Admin", "Manager", "User"];
             IdentityResult roleResult;
@@ -21,7 +23,7 @@ namespace KhaiMarket.API.Features.Account
                 var roleExist = await roleManager.RoleExistsAsync(roleName);
                 if (!roleExist)
                 {
-                    roleResult = await roleManager.CreateAsync(new IdentityRole<int>(roleName));
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
 

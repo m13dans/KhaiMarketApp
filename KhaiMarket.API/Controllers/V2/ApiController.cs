@@ -7,7 +7,7 @@ namespace KhaiMarket.API.Controllers.V2
     [ApiVersion(2.0)]
     [ApiController]
     [Route("api/v{Version:ApiVersion}/[controller]")]
-    [Route("api/[controller]")]
+    // [Route("api/[controller]")]
     public class ApiController : ControllerBase
     {
         protected IResult Problem(List<Error> errors)

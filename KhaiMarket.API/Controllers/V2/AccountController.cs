@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KhaiMarket.API.Controllers.V2;
 
-[ApiVersion(2.0)]
 [ApiController]
-public class AccountController : ApiController
+
+public class AccountController : ControllerBase
 {
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly RolesService _rolesService;
@@ -31,7 +31,7 @@ public class AccountController : ApiController
         return Results.Unauthorized();
     }
 
-    [HttpGet("GetRoles")]
+    [HttpGet("account/getroles")]
     [Authorize(Roles = "Admin")]
     public async Task<IResult> GetRoles()
     {
@@ -39,14 +39,14 @@ public class AccountController : ApiController
         return Results.Ok(roles);
     }
 
-    [HttpGet("GetUserRoles")]
+    [HttpGet("account/getuserroles")]
     [Authorize(Roles = "Admin, Manager, User")]
     public async Task<IResult> GetUserRoles(string userEmail)
     {
         var userRoles = await _rolesService.GetUserRolesAsync(userEmail);
         if (userRoles.IsError)
         {
-            return Problem(userRoles.Errors);
+            return Results.Problem(userRoles.Errors.ToString());
         }
 
         return Results.Ok(userRoles.Value);

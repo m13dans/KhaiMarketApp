@@ -28,7 +28,7 @@ public class ProductsController : ApiController
     }
 
     [HttpGet("{id:int}")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public async Task<IResult> GetById(int id, [FromServices] GetProductById query)
     {
         var product = await query.GetProductByIdAsync(id);

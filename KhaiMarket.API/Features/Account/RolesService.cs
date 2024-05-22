@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ErrorOr;
-using KhaiMarket.API.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,16 +6,16 @@ namespace KhaiMarket.API.Features.Account;
 
 public class RolesService
 {
-    private readonly RoleManager<IdentityRole<int>> _roleManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<IdentityUser> _userManager;
 
-    public RolesService(RoleManager<IdentityRole<int>> roleManager, UserManager<IdentityUser> userManager)
+    public RolesService(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
     {
         _roleManager = roleManager;
         _userManager = userManager;
     }
 
-    public async Task<List<IdentityRole<int>>> GetRolesAsync()
+    public async Task<List<IdentityRole>> GetRolesAsync()
     {
         var roleList = _roleManager.Roles.ToListAsync();
         return await roleList;
