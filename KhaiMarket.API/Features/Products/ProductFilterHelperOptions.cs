@@ -36,6 +36,8 @@ public class SortFilterPageOption
     public ProductFilterByOptions ProductFilterByOptions { get; set; }
     public string FilterValue { get; set; } = string.Empty;
 
+    public string? Search { get; set; }
+
 }
 
 public static class ProductHelper
@@ -118,6 +120,22 @@ public static class ProductListDtoFilter
 
         _ => products
     };
+
+    public static IQueryable<ProductDTO> SearchProduct(this IQueryable<ProductDTO> products, string? searchValue)
+    {
+        if (string.IsNullOrWhiteSpace(searchValue))
+        {
+            return products;
+        }
+
+        var searchResult = products.Where(x =>
+        x.Name.Contains(searchValue) ||
+        x.Description.Contains(searchValue) ||
+        x.ProductBrand.Contains(searchValue) ||
+        x.Category.Contains(searchValue));
+
+        return searchResult;
+    }
 }
 
 public enum OrderByOptions
