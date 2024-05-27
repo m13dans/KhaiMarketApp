@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductDto } from '../../Models/ProductDto';
 import { ShopService } from './shop.service';
-import { ProductItemComponent } from '../product-item/product-item.component';
-import { Category } from '../../Models/Category';
-import { ProductBrand } from '../../Models/ProductBrand';
-import { ProductFilterByOptions } from '../../Models/ProductFilterByOptions';
+import { ProductFilterByOptions } from '../Models/ProductFilterByOptions';
+import { ProductItemComponent } from './product-item/product-item.component';
+import { ProductBrand } from '../Models/ProductBrand';
+import { ProductDto } from '../Models/ProductDto';
+import { Category } from '../Models/Category';
+import { SearchService } from './search/search.service';
 
 @Component({
   selector: 'app-shop',
@@ -20,13 +21,23 @@ export class ShopComponent implements OnInit {
 
   filterByOptions?: string;
   filterValue?: string;
+  searchResult?: string;
 
-  constructor(private shopService: ShopService) {}
+  constructor(
+    private shopService: ShopService,
+    private searchService: SearchService
+  ) {}
 
   ngOnInit(): void {
     this.getProducts();
     this.getCategories();
     this.getProductBrands();
+
+    this.searchService.currentSearchResult.subscribe(
+      (x) => (this.searchResult = x)
+    );
+
+    this.searchService.productsBySearch.subscribe((x) => (this.products = x));
   }
 
   getProducts() {

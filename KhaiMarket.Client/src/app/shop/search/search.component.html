@@ -3,10 +3,15 @@
     <input
       class="form-control form-control-sm bg-secondary-subtle me-2"
       type="search"
+      name="searchValue"
       placeholder="Search"
-      aria-label="Search"
+      [(ngModel)]="searchValue"
     />
-    <button class="btn btn-sm btn-outline-secondary" type="submit">
+    <button
+      class="btn btn-sm btn-outline-secondary"
+      type="submit"
+      (click)="submitSearch()"
+    >
       Search
     </button>
   </form>

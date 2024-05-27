@@ -1,11 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ProductDto } from '../../Models/ProductDto';
-import { Category } from '../../Models/Category';
-import { ProductBrand } from '../../Models/ProductBrand';
-import { ProductFilterByOptions } from '../../Models/ProductFilterByOptions';
+import { ProductDto } from '../Models/ProductDto';
+import { Category } from '../Models/Category';
+import { ProductBrand } from '../Models/ProductBrand';
+import { ProductFilterByOptions } from '../Models/ProductFilterByOptions';
 import { map } from 'rxjs';
-import { response } from 'express';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +46,18 @@ export class ShopService {
           return response.body;
         })
       );
+  }
+
+  getProductBySearch(search: string) {
+    let params = new HttpParams();
+    let searchParams = params.append('Search', search);
+    return this.http.get<ProductDto[]>(
+      this.baseUrl + 'Products?' + searchParams
+    );
+  }
+
+  getProductById(id: number) {
+    return this.http.get<ProductDto>(this.baseUrl + id.toString());
   }
   getCategories() {
     return this.http.get<Category[]>(this.baseUrl + 'categories');

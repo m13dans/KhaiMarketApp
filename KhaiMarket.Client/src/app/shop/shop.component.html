@@ -35,7 +35,13 @@
     <section class="col-9">
       <div class="my-2 d-lg-flex">
         <header class="me-lg-3">
-          <span>Search Result For : <strong>Search box text text</strong></span>
+          @if (searchResult === undefined) {
+          <span></span>
+          } @else {
+          <span
+            >Search Result For : <strong>{{ searchResult }}</strong></span
+          >
+          }
         </header>
         <header>
           <span>Showing <strong>10</strong> of <strong>20</strong></span>
@@ -56,21 +62,3 @@
     </section>
   </div>
 </div>
-<!-- @for (product of products; track product.id) {
-<div class="col">
-  <div class="card shadow-sm">
-    <img class="card-img-top" height="225" src="{{ product.imageUrl }}" />
-    <div class="card-body">
-      <div class="card-header py-sm-0 mb-2">
-        <h5 class="card-text">
-          {{ product.name }}
-        </h5>
-        <p>Rp. {{ product.price }}</p>
-      </div>
-      <p class="card-text">
-        {{ product.description }}
-      </p>
-    </div>
-  </div>
-</div>
-} -->

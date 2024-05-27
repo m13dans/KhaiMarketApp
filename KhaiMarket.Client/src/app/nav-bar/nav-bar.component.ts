@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { SearchComponent } from '../search/search.component';
+import { SearchComponent } from '../shop/search/search.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,4 +13,10 @@ import { SearchComponent } from '../search/search.component';
 export class NavBarComponent {
   faShoppingCart = faShoppingCart;
   cartQuantity: number = 0;
+
+  searchResult = '';
+
+  updateProduct($event: string) {
+    this.searchResult = $event;
+  }
 }
