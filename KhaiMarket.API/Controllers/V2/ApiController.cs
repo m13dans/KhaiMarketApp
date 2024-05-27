@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KhaiMarket.API.Controllers.V2
 {
-    [ApiVersion(2.0)]
     [ApiController]
     [Route("api/v{Version:ApiVersion}/[controller]")]
     // [Route("api/[controller]")]

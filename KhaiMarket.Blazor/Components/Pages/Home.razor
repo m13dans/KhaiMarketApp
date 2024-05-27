@@ -1,0 +1,46 @@
+﻿@inject ProductClient Client
+@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<section class="col-9">
+    <div class="my-2 d-lg-flex">
+        <header class="me-lg-3">
+            <span>Search Result For : <strong>Search box text text</strong></span>
+        </header>
+        <header>
+            <span>Showing <strong>10</strong> of <strong>20</strong></span>
+        </header>
+
+
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex">
+        @if (products is null)
+        {
+            <Product />
+        }
+        else
+        {
+            foreach (var product in products)
+            {
+                <Product productInput="product" />
+            }
+
+        }
+    </div>
+
+
+
+</section>
+
+
+@code {
+    private List<ProductDTO>? products;
+
+    protected async override Task OnInitializedAsync()
+    {
+        products = await Client.GetProductsAsync();
+    }
+
+}

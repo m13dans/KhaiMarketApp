@@ -1,0 +1,51 @@
+@using KhaiMarket.Blazor.Model
+
+<section class="col-3 offcanvas-lg offcanvas-start" id="offCanvasSideBar">
+    <h5 class="text-warning ms-3 mt-2">Sort</h5>
+    <select class="form-select mb-3">
+        <option selected>Alphabetical</option>
+        <option>Price: Low to High</option>
+        <option>Price: High to Low</option>
+    </select>
+    <h5 class="text-warning ms-3">Brands</h5>
+    <ul class="list-group my-3">
+        @if (productBrands == null)
+        {
+            <li class="list-group-item">Product Brand no.1</li>
+            <li class="list-group-item">Product Brand no.2</li>
+            <li class="list-group-item">Product Brand no.3</li>
+            <li class="list-group-item">Product Brand no.4</li>
+        }
+        else
+        {
+            foreach (var brand in productBrands)
+            {
+                <li class="list-group-item">@brand.Name</li>
+            }
+        }
+    </ul>
+
+    <h5 class="text-warning ms-3">Category</h5>
+    <ul class="list-group my-3">
+        @if (categories is null)
+        {
+            <li class="list-group-item">Category no. 1</li>
+            <li class="list-group-item">Category no. 2</li>
+            <li class="list-group-item">Category no. 3</li>
+            <li class="list-group-item">Category no. 4</li>
+        }
+        else
+        {
+            foreach (var category in categories)
+            {
+                <li class="list-group-item">@category.Name</li>
+            }
+        }
+    </ul>
+</section>
+
+@code {
+    private List<ProductDTO>? products;
+    private List<ProductBrand>? productBrands;
+    private List<Category>? categories;
+}

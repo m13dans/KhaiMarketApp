@@ -20,13 +20,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddJsonOptions(option => option.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>();
-
-builder.Services.AddTransient<RolesService>();
 
 builder.Services.AddAntiforgery();
 
@@ -55,6 +48,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"));
 });
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddTransient<RolesService>();
 // Feature Service for CRUD functionality
 builder.Services.AddProductServices();
 builder.Services.AddCategoryServices();
@@ -107,7 +107,8 @@ app.UseCors(o =>
     o.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 });
 app.UseAuthorization();
-app.MapGroup("/account").MapIdentityApi<IdentityUser>();
+
+app.MapGroup("api/v2/Account").MapIdentityApi<IdentityUser>();
 
 app.UseStaticFiles();
 
