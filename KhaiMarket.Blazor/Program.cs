@@ -1,5 +1,6 @@
 using KhaiMarket.Blazor.Client;
 using KhaiMarket.Blazor.Components;
+using KhaiMarket.Blazor.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,11 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-var gameStoreApiUrl = builder.Configuration["GameStoreApiUrl"] ??
+builder.Services.AddSingleton<ProductStateContainer>();
+
+var productsApiUrl = builder.Configuration["ProductsApiUrl"] ??
 throw new Exception("GameStoreApiUrl is not set");
 
 builder.Services.AddHttpClient<ProductClient>(
-    client => client.BaseAddress = new Uri(gameStoreApiUrl));
+    client => client.BaseAddress = new Uri(productsApiUrl));
 
 var app = builder.Build();
 

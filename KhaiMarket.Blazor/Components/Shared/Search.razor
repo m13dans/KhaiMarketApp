@@ -1,9 +1,38 @@
+@inject ProductClient Client
+@inject ProductStateContainer productStateContainer
+
+
 <div class="justify-content-between">
     <form class="d-flex" role="search">
-        <input class="form-control form-control-sm bg-secondary-subtle me-2" type="search" placeholder="Search"
+        <input @bind="searchValue" class="form-control form-control-sm bg-secondary-subtle me-2" placeholder="Search"
             aria-label="Search" />
-        <button class="btn btn-sm btn-outline-secondary" type="submit">
+        <button class="btn btn-sm btn-outline-secondary" type="submit" @onclick="SendRequest">
             Search
         </button>
     </form>
 </div>
+
+<p>@searchValue haha</p>
+
+@code {
+
+    private string searchValue = "";
+
+    public List<ProductDTO>? products;
+    private async Task SendRequest(EventArgs e)
+    {
+        var result = await Client.GetProductsWithSearch(searchValue);
+        productStateContainer.OnStateChange += StateHasChanged;
+        productStateContainer.SetValue(result);
+        productStateContainer.SetSearchValue(searchValue);
+
+        products.ForEach(x => Console.WriteLine(x.Name));
+        Console.WriteLine(searchValue + " i search this"); ;
+    }
+
+    public void Dispose()
+    {
+        productStateContainer.OnStateChange -= StateHasChanged;
+    }
+    private void typedValue(ChangeEventArgs e) => searchValue = (string)e.Value!;
+}

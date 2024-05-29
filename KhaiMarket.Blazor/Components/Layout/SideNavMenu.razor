@@ -29,23 +29,33 @@
     <ul class="list-group my-3">
         @if (categories is null)
         {
-            <li class="list-group-item">Category no. 1</li>
-            <li class="list-group-item">Category no. 2</li>
-            <li class="list-group-item">Category no. 3</li>
-            <li class="list-group-item">Category no. 4</li>
+            <a class=" nav-link" href="#">
+                <li class="list-group-item">Category no. 1</li>
+            </a>
+            <a class=" nav-link" href="#">
+                <li class="list-group-item">Category no. 2</li>
+            </a>
+            <a class=" nav-link" href="#">
+                <li class="list-group-item">Category no. 3</li>
+            </a>
+            <a class="nav-link" href="#">
+                <li class="list-group-item">Category no. 4</li>
+            </a>
         }
         else
         {
             foreach (var category in categories)
             {
-                <li class="list-group-item">@category.Name</li>
+                <a class=" nav-link" href="#">
+                    <li class="list-group-item">@category.Name</li>
+                </a>
             }
         }
     </ul>
 </section>
 
 @code {
-    private List<ProductDTO>? products;
+    @* private List<ProductDTO>? products; *@
     private List<ProductBrand>? productBrands;
     private List<Category>? categories;
 }

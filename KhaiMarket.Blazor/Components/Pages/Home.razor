@@ -1,4 +1,5 @@
 ﻿@inject ProductClient Client
+@inject ProductStateContainer productStateContainer
 @page "/"
 @attribute [StreamRendering]
 
@@ -7,20 +8,17 @@
 <section class="col-9">
     <div class="my-2 d-lg-flex">
         <header class="me-lg-3">
-            <span>Search Result For : <strong>___</strong></span>
+            <span>Search Result For : <strong>@searchValue</strong></span>
         </header>
         <header>
-            <span>Showing <strong>10</strong> of <strong>20</strong></span>
+            <span>Showing <strong>@products?.Count()</strong> of <strong>20</strong></span>
         </header>
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex justify-content-between">
         @if (products is null)
         {
-            for (var i = 0; i < 30; i++)
-            {
-                <Product />
-            }
+            <p>The product is Loading ...</p>
         }
         else
         {
@@ -35,19 +33,35 @@
 
 
 @code {
-    private List<ProductDTO>? products;
+    private List<ProductDTO>? products => productStateContainer.Value;
 
-    protected async override Task OnInitializedAsync()
-    {
-        try
-        {
-            products = await Client.GetProductsAsync();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            products = null;
-        }
-    }
+    private ProductDTO? product;
+
+    private string searchValue => productStateContainer.SearchValue;
+
+
+
+    @* protected async override Task OnInitializedAsync()
+{
+products = productStateContainer.Value;
+try
+{
+products = await Client.GetProductsAsync();
+foreach (var product in products)
+{
+Console.WriteLine(product.Name);
+}
+}
+catch (Exception e)
+{
+Console.WriteLine(e);
+products = null;
+}
+} *@
+
+    @* protected override void OnAfterRender(bool firstRender)
+{
+products = productStateContainer.Value;
+} *@
 
 }
